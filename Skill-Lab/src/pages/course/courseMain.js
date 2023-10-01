@@ -136,7 +136,7 @@ function CourseMain() {
                     <div className="card-text">  <p>{courses.description}</p> </div>
                     <div className="card-text">  <h5 >{courses.paid}</h5> </div>
                     <div className="card-text">  <h5 > ${courses.price}</h5> </div>
-                    <a href='/enroll'>Enroll</a>
+                    <a href={`enroll/${courses._id}`}>Enroll</a>
                     <Link to="/enroll" className="btn btn-primary" id="apply1">Enroll</Link>
                     <Link to="/review" className="btn btn-primary" id="apply1">Review</Link>
                   </div>
