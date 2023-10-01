@@ -161,6 +161,7 @@ function UpdateEnroll() {
                         <center><img src={image2} className="enrollImage"></img></center>
                         <Form.Item {...tailLayout}>
                             <div className="updtenrollbtn"><Button type="primary" htmlType="submit" >
+                            <a href={`UpdateEnroll/${data._id}`}></a>
                                 Update
                             </Button></div>
                         </Form.Item>
