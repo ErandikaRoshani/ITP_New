@@ -2,20 +2,30 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const cookieParser = require("cookie-parser");
-const csurf = require("csurf");
 const helmet = require("helmet");
+const csp = require("helmet-csp");
 
 dotenv.config();
 const app = express();
 app.use(helmet());
+app.use(
+  csp({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: true,
+    },
+  })
+);
 
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
-
-app.use(cookieParser());
-
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -30,8 +40,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(csurf({ cookie: true }));
 
 mongoose.connect(process.env.DB_CONNECT, err => {
   if (err) {
@@ -64,6 +72,7 @@ app.use("/api/AuthenticationRoute", routAuthentication);
 
 const routReview = require("./Routes/FeedbackRoute");
 app.use("/api/feedback", routReview);
+
 
 app.listen(PORT, err => {
   if (!err) {
