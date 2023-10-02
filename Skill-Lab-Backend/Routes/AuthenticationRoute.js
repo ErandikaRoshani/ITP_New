@@ -71,7 +71,6 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     
-
     const result = await CommonSignup.findOne({
       $and: [{ email: email.toString() }, { inputpw: password.toString() }]
     });

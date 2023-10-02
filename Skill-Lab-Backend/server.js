@@ -7,7 +7,20 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    const trustedOrigins = ['http://localhost:3000', 'https://www.google.com/', 'https://mail.google.com/'];
+
+    if (trustedOrigins.includes(origin)) {
+      callback(null, true); // Allow requests from trusted origins
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 mongoose.connect(process.env.DB_CONNECT, err => {
   if (err) {
