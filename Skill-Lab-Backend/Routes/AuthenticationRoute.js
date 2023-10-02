@@ -70,9 +70,10 @@ router.delete("/CommonSignup/:id", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    
 
     const result = await CommonSignup.findOne({
-      $and: [{ email }, { inputpw: password }]
+      $and: [{ email: email.toString() }, { inputpw: password.toString() }]
     });
     if (result) {
       const token = jwt.sign(
