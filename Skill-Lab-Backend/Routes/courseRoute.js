@@ -109,7 +109,7 @@ router.post("/lessonscreated", async (req, res) => {
     const lessonscreated = new lessonsCreated(req.body);
     const savedcourse = await lessonscreated.save();
     if (savedcourse) {
-      res.status(201).send({ message: "success", data: savedcourse });
+      res.status(201).send(savedcourse._id );
     } else {
       res.status(400).send({ message: "failed", data: savedcourse });
     }
@@ -119,10 +119,6 @@ router.post("/lessonscreated", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
-
-
-
-
 
 //Retrive all  course content for a particular courses 
  
