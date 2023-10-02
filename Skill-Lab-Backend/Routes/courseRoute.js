@@ -31,7 +31,7 @@ router.post("/coursecreate", async (req, res) => {
     console.log("result , ", savedcourse);
   } catch (err) {
     console.log("error in coursecreate ", err);
-    res.status(500).send({ message: "failed", data: err });
+    res.status(500).send({  message: "Internal server error" });
   }
 });
 
@@ -47,7 +47,7 @@ router.put("/coursecreate/:id", async (req, res) => {
     console.log("result, ", Updatecourse);
   } catch (err) {
     console.log("error in updating coursing  details", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
  
@@ -59,7 +59,7 @@ router.get("/coursecreate/:id", async (req, res) => {
       console.log("result , ", courseone);
   } catch (err) {
       console.log("error in getting courses", err);
-      res.status(204).send({ message: "failed", data: err });
+      res.status(204).send({ message: "Operation failed" });
   }
 });
 
@@ -77,7 +77,7 @@ router.get("/coursecreate/findAll/:userID", async (req, res) => {
     res.json(findAll);
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 
@@ -95,7 +95,7 @@ router.get("/coursecreate/findAll", async (req, res) => {
     res.json(findAll);
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 
@@ -116,7 +116,7 @@ router.post("/lessonscreated", async (req, res) => {
     console.log("result , ", savedcourse);
   } catch (err) {
     console.log("error in  lessons Created  ", err);
-    res.status(500).send({ message: "failed", data: err });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -132,7 +132,7 @@ router.get("/lessonscreated/findAll", async (req, res) => {
     res.json(findAll);
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 
@@ -143,7 +143,7 @@ router.get("/lessonscreated/findAll/:cid", async (req, res) => {
     res.json(findAll);
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 
@@ -154,7 +154,7 @@ router.get("/lessonscreated/:id", async (req, res) => {
     res.json(findByIdc);
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 //delete  by id 
@@ -166,7 +166,7 @@ router.get("/lessonscreated/:id", async (req, res) => {
     console.log("Deleted!");
   } catch (err) {
     console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
+    res.status(204).send({ message: "Operation failed" });
   }
 });
 

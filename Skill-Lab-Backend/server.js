@@ -8,22 +8,19 @@ const csurf = require("csurf");
 dotenv.config();
 const app = express();
 
-// Use environment variable for the port
 const PORT = process.env.PORT || 4000;
 
-// Use a middleware for JSON parsing
 app.use(express.json());
 
-// Use cookie parser middleware for parsing cookies
 app.use(cookieParser());
 
-// Define CORS options
+
 const corsOptions = {
   origin: (origin, callback) => {
     const trustedOrigins = ['http://localhost:3000', 'https://www.google.com', 'https://mail.google.com'];
 
     if (trustedOrigins.includes(origin)) {
-      callback(null, true); // Allow requests from trusted origins
+      callback(null, true); 
     } else {
       callback(new Error('Not allowed by CORS'));
     }
@@ -32,7 +29,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Use csurf middleware for CSRF protection
 app.use(csurf({ cookie: true }));
 
 mongoose.connect(process.env.DB_CONNECT, err => {
