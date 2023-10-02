@@ -2,15 +2,25 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const csurf = require("csurf");
 
 dotenv.config();
 const app = express();
 
+// Use environment variable for the port
+const PORT = process.env.PORT || 4000;
+
+// Use a middleware for JSON parsing
 app.use(express.json());
 
+// Use cookie parser middleware for parsing cookies
+app.use(cookieParser());
+
+// Define CORS options
 const corsOptions = {
   origin: (origin, callback) => {
-    const trustedOrigins = ['http://localhost:3000', 'https://www.google.com/', 'https://mail.google.com/'];
+    const trustedOrigins = ['http://localhost:3000', 'https://www.google.com', 'https://mail.google.com'];
 
     if (trustedOrigins.includes(origin)) {
       callback(null, true); // Allow requests from trusted origins
@@ -21,6 +31,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Use csurf middleware for CSRF protection
+app.use(csurf({ cookie: true }));
 
 mongoose.connect(process.env.DB_CONNECT, err => {
   if (err) {
@@ -54,11 +67,10 @@ app.use("/api/AuthenticationRoute", routAuthentication);
 const routReview = require("./Routes/FeedbackRoute");
 app.use("/api/feedback", routReview);
 
-app.listen(4000, err => {
+app.listen(PORT, err => {
   if (!err) {
-    console.log("successfully connected to the port ", 4000);
+    console.log("successfully connected to the port ", PORT);
   } else {
-  
-    console.log("error occured ", err);
+    console.log("error occurred ", err);
   }
 });
