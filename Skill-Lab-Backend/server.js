@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const csurf = require("csurf");
+const helmet = require("helmet");
 
 dotenv.config();
 const app = express();
+app.use(helmet());
 
 const PORT = process.env.PORT || 4000;
 
