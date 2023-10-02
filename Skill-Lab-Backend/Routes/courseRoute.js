@@ -4,6 +4,7 @@ const  lessonsCreated = require("../Models/lessonsCreated");
 const ImageUpload = require("../Models/ImageUpload");
 const extractToken = require("../TokenExtract");
 const jwt_decode = require('jwt-decode');
+const escapeHtml = require("escape-html");
   
 
 //post the data from the course  created form to db
@@ -109,7 +110,8 @@ router.post("/lessonscreated", async (req, res) => {
     const lessonscreated = new lessonsCreated(req.body);
     const savedcourse = await lessonscreated.save();
     if (savedcourse) {
-      res.status(201).send(savedcourse._id );
+      const sanitizedId = escapeHtml(savedcourse._id );
+      res.status(201).send(sanitizedId);
     } else {
       res.status(400).send({ message: "failed", data: savedcourse });
     }
