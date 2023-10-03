@@ -2,51 +2,32 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
-const csp = require("helmet-csp");
+const cookieParser = require("cookie-parser");
+const csurf = require("csurf"); // Import csurf middleware
 
 dotenv.config();
 const app = express();
-app.use(helmet());
-app.use(
-  csp({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'"],
-      imgSrc: ["'self'"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: true,
-    },
-  })
-);
-
-const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    const trustedOrigins = ['http://localhost:3000', 'https://www.google.com', 'https://mail.google.com'];
-
-    if (trustedOrigins.includes(origin)) {
-      callback(null, true); 
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
+app.use(cookieParser()); // Use cookie-parser middleware
 
 mongoose.connect(process.env.DB_CONNECT, err => {
   if (err) {
-    console.log("mongo connection error ", err);
+    console.log("MongoDB connection error ", err);
   } else {
-    console.log("Mongodb connection success");
+    console.log("MongoDB connection success");
   }
+});
+
+const csrfProtection = csurf({ cookie: true }); // Create CSRF protection middleware
+
+app.use(csrfProtection); // Use CSRF middleware
+
+// Set the CSRF token as a cookie for all routes
+app.use((req, res, next) => {
+  res.cookie("XSRF-TOKEN", req.csrfToken(), { httpOnly: false });
+  next();
 });
 
 const routWallet = require("./Routes/FinanceRoute");
@@ -73,10 +54,9 @@ app.use("/api/AuthenticationRoute", routAuthentication);
 const routReview = require("./Routes/FeedbackRoute");
 app.use("/api/feedback", routReview);
 
-
-app.listen(PORT, err => {
+app.listen(4000, err => {
   if (!err) {
-    console.log("successfully connected to the port ", PORT);
+    console.log("successfully connected to the port ", 4000);
   } else {
     console.log("error occurred ", err);
   }
