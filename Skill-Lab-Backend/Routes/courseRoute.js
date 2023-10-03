@@ -111,7 +111,8 @@ router.post("/lessonscreated", async (req, res) => {
     const savedcourse = await lessonscreated.save();
     if (savedcourse) {
       const sanitizedId = escapeHtml(savedcourse._id );
-      res.status(201).send(savedcourse._id);
+      // res.status(201).send(sanitizedId);
+      res.status(201).send({ message: "success", data: savedcourse });
     } else {
       res.status(400).send({ message: "failed", data: savedcourse });
     }
